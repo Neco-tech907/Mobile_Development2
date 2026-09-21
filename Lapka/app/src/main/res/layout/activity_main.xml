@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Lapka — проверка каркаса"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonRecognize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Распознать породу по фото" />
+
+        <Button
+            android:id="@+id/buttonShelters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. Найти приюты с этой породой" />
+
+        <Button
+            android:id="@+id/buttonPets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Питомцы приюта" />
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4. Войти (user / 1234)" />
+
+        <Button
+            android:id="@+id/buttonSaveEncounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5. Сохранить встречу в альбом" />
+
+        <TextView
+            android:id="@+id/textViewLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Нажми кнопку — результат появится здесь"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</ScrollView>

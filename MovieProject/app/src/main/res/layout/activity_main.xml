@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/textViewMovie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="Нет данных!"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonGetMovie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Отобразить любимый фильм" />
+
+    <EditText
+        android:id="@+id/editTextMovie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:autofillHints=""
+        android:hint="Заполни меня"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/buttonSaveMovie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сохранить любимый фильм" />
+
+</LinearLayout>

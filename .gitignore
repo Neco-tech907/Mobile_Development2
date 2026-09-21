@@ -1,0 +1,26 @@
+# --- Android Studio / Gradle ---
+.gradle/
+build/
+*/build/
+*/*/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Локальные настройки: путь к SDK у каждого свой
+local.properties
+
+# --- IDE ---
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# --- Ключи подписи ---
+*.jks
+*.keystore
+
+# --- ОС ---
+.DS_Store
+Thumbs.db
+desktop.ini
