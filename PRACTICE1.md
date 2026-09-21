@@ -636,15 +636,3 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 ---
-
-## Соответствие методичке
-
-| Требование | Как закрыто |
-|------------|-------------|
-| Авторизация | `LoginUseCase`, `RegisterUseCase`, `LogoutUseCase`, сессия в `AuthRepositoryImpl` |
-| Внешний сервис с JSON | на диаграмме два актёра-системы: TheDogAPI / TheCatAPI и каталог приютов на mockapi.io; в коде им соответствуют `BreedRepository` и `ShelterRepository` |
-| Сохранение в БД | `EncounterRepository`, `ReviewRepository` — сейчас списки в памяти, далее Room |
-| Список сущностей с картинками | приюты и питомцы, у обеих сущностей есть `imageUrl` |
-| Страница сущности | карточка породы, страница приюта, карточка питомца |
-| Гость ≠ пользователь | проверка сессии в `SaveEncounterUseCase`, `GetEncountersUseCase`, `AddReviewUseCase` |
-| TensorFlow Lite | отдельный use case «Классифицировать снимок», интерфейс `BreedRecognitionRepository`; планируется MobileNetV2, дообученный на Oxford-IIIT Pet Dataset |
