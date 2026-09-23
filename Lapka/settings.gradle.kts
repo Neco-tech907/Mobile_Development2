@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Lapka"
 include(":app")
+include(":data")
+include(":domain")
  

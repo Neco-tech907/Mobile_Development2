@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    // читает google-services.json и подключает проект Firebase
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -34,6 +36,10 @@ android {
 }
 
 dependencies {
+    // presentation видит domain (use case'ы, модели) и data (только чтобы собрать зависимости в di)
+    implementation(project(":domain"))
+    implementation(project(":data"))
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">Lapka</string>
+    <string name="app_title">Лапка</string>
+
+    <!-- AuthActivity: тексты из макетов 02 «Вход» и 03 «Регистрация» -->
+    <string name="back">Назад</string>
+    <string name="auth_login_title">И снова привет!</string>
+    <string name="auth_login_subtitle">Войдите, чтобы вести альбом встреч и оставлять отзывы</string>
+    <string name="auth_register_title">Создать аккаунт</string>
+    <string name="auth_register_subtitle">Сохраняйте встречи и делитесь отзывами о приютах</string>
+    <string name="auth_name_hint">Имя</string>
+    <string name="auth_email_hint">Email</string>
+    <string name="auth_password_hint">Пароль</string>
+    <string name="auth_password_repeat_hint">Повторите пароль</string>
+    <string name="auth_passwords_differ">Пароли не совпадают</string>
+    <string name="auth_login">Войти</string>
+    <string name="auth_register">Зарегистрироваться</string>
+    <string name="auth_create_account">Создать аккаунт</string>
+    <string name="auth_guest">Продолжить как гость</string>
+    <string name="auth_to_login">Уже есть аккаунт? <b>Войти</b></string>
+    <string name="auth_welcome">Добро пожаловать, %1$s!</string>
+
+    <!-- MainActivity -->
+    <string name="main_title">Проверка слоёв</string>
+    <string name="main_guest">Режим гостя: альбом и отзывы недоступны</string>
+    <string name="main_user">Вы вошли как %1$s (%2$s)</string>
+    <string name="main_recognize">Распознать породу по фото</string>
+    <string name="main_shelters">Где есть эта порода · NetworkApi</string>
+    <string name="main_pets">Питомцы приюта · NetworkApi</string>
+    <string name="main_save_encounter">Сохранить встречу в альбом · Room</string>
+    <string name="main_album">Показать альбом встреч · Room</string>
+    <string name="main_add_review">Оставить отзыв о приюте · Room</string>
+    <string name="main_reviews">Отзывы о приюте · Room</string>
+    <string name="main_profile">Профиль · SharedPreferences</string>
+    <string name="main_logout">Выйти из аккаунта</string>
+    <string name="main_login">Войти или зарегистрироваться</string>
+    <string name="main_log_hint">Нажми кнопку — результат появится здесь</string>
 </resources>

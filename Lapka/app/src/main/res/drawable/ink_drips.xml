@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- «Чернильные» подтёки под тёмной шапкой. Контур взят из макета Lapka.html (svg 390×200),
+     показана только волнистая часть: строки 130–200 исходного viewBox -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="390dp"
+    android:height="70dp"
+    android:viewportWidth="390"
+    android:viewportHeight="70">
+    <group android:translateY="-130">
+        <path
+            android:fillColor="@color/colorPrimaryDark"
+            android:pathData="M0 0H390V130C370 150 350 160 335 140C325 125 310 130 305 150C298 178 270 178 262 150C255 128 238 128 230 145C220 165 198 165 188 145C180 128 162 132 156 150C150 172 124 174 116 152C108 130 90 130 82 148C72 168 48 166 40 146C32 128 14 130 0 142Z" />
+        <path
+            android:fillColor="@color/colorPrimaryDark"
+            android:pathData="M262 150c-1 14-8 30-8 40a8 8 0 0 0 16 0c0-10-7-26-8-40z" />
+        <path
+            android:fillColor="@color/colorPrimaryDark"
+            android:pathData="M120 158c-1 8-6 16-6 22a6 6 0 0 0 12 0c0-6-5-14-6-22z" />
+        <path
+            android:fillColor="@color/colorPrimaryDark"
+            android:pathData="M300 176c-.6 6-4 11-4 15a4 4 0 0 0 8 0c0-4-3.4-9-4-15z" />
+    </group>
+</vector>

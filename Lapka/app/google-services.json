@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "882675978787",
+    "project_id": "lapka-73946",
+    "storage_bucket": "lapka-73946.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882675978787:android:c61f0f487249d6b7ed9796",
+        "android_client_info": {
+          "package_name": "ru.mirea.ivanovrr.lapka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ6lBVp_OD2AYFv6-7LEHui_qz8tmj468"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

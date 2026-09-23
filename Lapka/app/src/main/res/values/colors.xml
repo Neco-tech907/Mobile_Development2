@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Палитра «Лесная мята» из макета Claude Design (Lapka.html, раздел «Роли цвета») -->
 <resources>
+    <!-- главные кнопки: «Войти», «Где взять такую», «Связаться с приютом» -->
+    <color name="colorPrimary">#2F5D50</color>
+    <!-- чернильные подтёки, шапки, иконки -->
+    <color name="colorPrimaryDark">#1E3F36</color>
+    <!-- логотип, кнопка «Создать аккаунт», активная вкладка, звёзды -->
+    <color name="colorAccent">#F3C77B</color>
+    <!-- светлые заглушки фото и подложки иконок (акцент 40 % на белом) -->
+    <color name="colorAccentLight">#FAE9CA</color>
+    <!-- фон всех экранов -->
+    <color name="colorBackground">#F1F7F3</color>
+    <!-- карточки, поля ввода, второстепенные кнопки -->
+    <color name="colorSurface">#FFFFFF</color>
+    <!-- обводки 1,5 px карточек, полей и кнопок -->
+    <color name="colorOutline">#1E3F36</color>
+    <!-- заголовки и основной текст -->
+    <color name="colorTextPrimary">#1B2A25</color>
+    <!-- подписи, адреса, даты -->
+    <color name="colorTextSecondary">#5F7369</color>
+    <!-- статусы «привит», подтверждения -->
+    <color name="colorSuccess">#4E9A6B</color>
+    <!-- ошибки валидации и входа -->
+    <color name="colorError">#D0705B</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

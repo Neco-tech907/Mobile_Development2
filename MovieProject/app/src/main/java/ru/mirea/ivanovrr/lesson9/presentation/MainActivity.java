@@ -12,6 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import ru.mirea.ivanovrr.lesson9.R;
 import ru.mirea.ivanovrr.lesson9.data.repository.MovieRepositoryImpl;
+import ru.mirea.ivanovrr.lesson9.data.storage.MovieStorage;
+import ru.mirea.ivanovrr.lesson9.data.storage.sharedprefs.SharedPrefMovieStorage;
 import ru.mirea.ivanovrr.lesson9.domain.models.Movie;
 import ru.mirea.ivanovrr.lesson9.domain.repository.MovieRepository;
 import ru.mirea.ivanovrr.lesson9.domain.usecases.GetFavoriteFilmUseCase;
@@ -37,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Context уходит только в data-слой, domain о нём не знает
-        MovieRepository movieRepository = new MovieRepositoryImpl(this);
+        // Context уходит только в хранилище (модуль data), domain о нём не знает
+        MovieStorage sharedPrefMovieStorage = new SharedPrefMovieStorage(this);
+        MovieRepository movieRepository = new MovieRepositoryImpl(sharedPrefMovieStorage);
         getFavoriteFilmUseCase = new GetFavoriteFilmUseCase(movieRepository);
         saveMovieToFavoriteUseCase = new SaveMovieToFavoriteUseCase(movieRepository);
 
