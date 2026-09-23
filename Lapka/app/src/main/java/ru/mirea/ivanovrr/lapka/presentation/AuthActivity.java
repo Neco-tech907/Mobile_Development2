@@ -3,6 +3,8 @@ package ru.mirea.ivanovrr.lapka.presentation;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,30 +16,20 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.SystemBarStyle;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import androidx.lifecycle.ViewModelProvider;
 
 import ru.mirea.ivanovrr.lapka.R;
-import ru.mirea.ivanovrr.lapka.di.ServiceLocator;
-import ru.mirea.ivanovrr.lapka.domain.models.AuthResult;
-import ru.mirea.ivanovrr.lapka.domain.usecases.GetProfileUseCase;
-import ru.mirea.ivanovrr.lapka.domain.usecases.LoginUseCase;
-import ru.mirea.ivanovrr.lapka.domain.usecases.RegisterUseCase;
 
 /**
  * Стартовый экран по макетам 02 «Вход» и 03 «Регистрация».
- * Один экран, два режима: вход и регистрация переключаются без смены Activity.
- * Работает только с use case'ами — о Firebase знает лишь модуль data.
+ * Activity только рисует состояние из AuthViewModel и передаёт ей нажатия.
+ * Use case'ов, потоков и Firebase здесь нет.
  */
 public class AuthActivity extends AppCompatActivity {
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private static final String TAG = AuthActivity.class.getSimpleName();
 
-    private LoginUseCase loginUseCase;
-    private RegisterUseCase registerUseCase;
-
-    private boolean registerMode;
+    private AuthViewModel vm;
 
     private TextView textTitle;
     private TextView textSubtitle;
@@ -60,16 +52,9 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "AuthActivity created");
 
-        ServiceLocator serviceLocator = ServiceLocator.getInstance(this);
-        GetProfileUseCase getProfileUseCase = serviceLocator.provideGetProfileUseCase();
-        // Firebase помнит сессию — если уже входили, сразу открываем главный экран
-        if (getProfileUseCase.execute() != null) {
-            openMain();
-            return;
-        }
-        loginUseCase = serviceLocator.provideLoginUseCase();
-        registerUseCase = serviceLocator.provideRegisterUseCase();
+        vm = new ViewModelProvider(this, new ViewModelFactory(this)).get(AuthViewModel.class);
 
         // шапка тёмная — значки статус-бара делаем светлыми
         EdgeToEdge.enable(this, SystemBarStyle.dark(Color.TRANSPARENT));
@@ -94,44 +79,44 @@ public class AuthActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         textViewStatus = findViewById(R.id.textViewStatus);
 
-        buttonLogin.setOnClickListener(v -> {
-            String email = editTextEmail.getText().toString();
-            String password = editTextPassword.getText().toString();
-            setLoading(true);
-            // вход ходит в сеть — только в фоновом потоке
-            executor.execute(() -> {
-                AuthResult result = loginUseCase.execute(email, password);
-                runOnUiThread(() -> handleResult(result));
-            });
+        // --- подписки на LiveData: экран просто отражает состояние ViewModel ---
+        vm.getRegisterMode().observe(this, this::showRegisterMode);
+        vm.getLoading().observe(this, this::showLoading);
+        vm.getError().observe(this, message -> {
+            textViewStatus.setText(message);
+            textViewStatus.setVisibility(TextUtils.isEmpty(message) ? View.GONE : View.VISIBLE);
         });
-
-        buttonRegister.setOnClickListener(v -> {
-            String name = editTextName.getText().toString();
-            String email = editTextEmail.getText().toString();
-            String password = editTextPassword.getText().toString();
-            String passwordRepeat = editTextPasswordRepeat.getText().toString();
-            if (!password.equals(passwordRepeat)) {
-                showError(getString(R.string.auth_passwords_differ));
+        vm.getSignedInUser().observe(this, user -> {
+            if (user == null) {
                 return;
             }
-            setLoading(true);
-            executor.execute(() -> {
-                AuthResult result = registerUseCase.execute(email, password, name);
-                runOnUiThread(() -> handleResult(result));
-            });
+            Toast.makeText(this, getString(R.string.auth_welcome, user.getName()),
+                    Toast.LENGTH_SHORT).show();
+            openMain();
         });
 
-        buttonCreateAccount.setOnClickListener(v -> setRegisterMode(true));
-        textToLogin.setOnClickListener(v -> setRegisterMode(false));
-        buttonBack.setOnClickListener(v -> setRegisterMode(false));
+        // --- нажатия уходят во ViewModel ---
+        buttonLogin.setOnClickListener(v -> vm.login(
+                editTextEmail.getText().toString(),
+                editTextPassword.getText().toString()));
+
+        buttonRegister.setOnClickListener(v -> vm.register(
+                editTextName.getText().toString(),
+                editTextEmail.getText().toString(),
+                editTextPassword.getText().toString(),
+                editTextPasswordRepeat.getText().toString()));
+
+        buttonCreateAccount.setOnClickListener(v -> vm.setRegisterMode(true));
+        textToLogin.setOnClickListener(v -> vm.setRegisterMode(false));
+        buttonBack.setOnClickListener(v -> vm.setRegisterMode(false));
         buttonGuest.setOnClickListener(v -> openMain());
 
         // системная «назад» в режиме регистрации возвращает к входу
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (registerMode) {
-                    setRegisterMode(false);
+                if (vm.isRegisterMode()) {
+                    vm.setRegisterMode(false);
                 } else {
                     setEnabled(false);
                     getOnBackPressedDispatcher().onBackPressed();
@@ -139,17 +124,20 @@ public class AuthActivity extends AppCompatActivity {
             }
         });
 
-        setRegisterMode(false);
+        // если Firebase помнит сессию, сработает наблюдатель signedInUser
+        if (savedInstanceState == null) {
+            vm.checkSession();
+        }
     }
 
     /** Переключает экран между макетом «Вход» и макетом «Регистрация». */
-    private void setRegisterMode(boolean enabled) {
-        registerMode = enabled;
-        int registerOnly = enabled ? View.VISIBLE : View.GONE;
-        int loginOnly = enabled ? View.GONE : View.VISIBLE;
+    private void showRegisterMode(Boolean enabled) {
+        boolean register = Boolean.TRUE.equals(enabled);
+        int registerOnly = register ? View.VISIBLE : View.GONE;
+        int loginOnly = register ? View.GONE : View.VISIBLE;
 
-        textTitle.setText(enabled ? R.string.auth_register_title : R.string.auth_login_title);
-        textSubtitle.setText(enabled ? R.string.auth_register_subtitle
+        textTitle.setText(register ? R.string.auth_register_title : R.string.auth_login_title);
+        textSubtitle.setText(register ? R.string.auth_register_subtitle
                 : R.string.auth_login_subtitle);
 
         layoutName.setVisibility(registerOnly);
@@ -162,45 +150,19 @@ public class AuthActivity extends AppCompatActivity {
         buttonCreateAccount.setVisibility(loginOnly);
         buttonGuest.setVisibility(loginOnly);
         imageLogo.setVisibility(loginOnly);
-
-        textViewStatus.setVisibility(View.GONE);
     }
 
-    private void handleResult(AuthResult result) {
-        setLoading(false);
-        if (result.isSuccess()) {
-            Toast.makeText(this, getString(R.string.auth_welcome, result.getUser().getName()),
-                    Toast.LENGTH_SHORT).show();
-            openMain();
-        } else {
-            showError(result.getErrorMessage());
-        }
-    }
-
-    private void showError(String message) {
-        textViewStatus.setText(message);
-        textViewStatus.setVisibility(View.VISIBLE);
-    }
-
-    private void setLoading(boolean loading) {
+    private void showLoading(Boolean isLoading) {
+        boolean loading = Boolean.TRUE.equals(isLoading);
         progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
         buttonLogin.setEnabled(!loading);
         buttonRegister.setEnabled(!loading);
         buttonCreateAccount.setEnabled(!loading);
         buttonGuest.setEnabled(!loading);
-        if (loading) {
-            textViewStatus.setVisibility(View.GONE);
-        }
     }
 
     private void openMain() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        executor.shutdownNow();
     }
 }

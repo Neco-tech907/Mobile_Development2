@@ -27,6 +27,7 @@ import ru.mirea.ivanovrr.lapka.domain.usecases.GetEncountersUseCase;
 import ru.mirea.ivanovrr.lapka.domain.usecases.GetPetsByShelterUseCase;
 import ru.mirea.ivanovrr.lapka.domain.usecases.GetProfileUseCase;
 import ru.mirea.ivanovrr.lapka.domain.usecases.GetReviewsByShelterUseCase;
+import ru.mirea.ivanovrr.lapka.domain.usecases.GetShelterDetailsUseCase;
 import ru.mirea.ivanovrr.lapka.domain.usecases.GetSheltersByBreedUseCase;
 import ru.mirea.ivanovrr.lapka.domain.usecases.LoginUseCase;
 import ru.mirea.ivanovrr.lapka.domain.usecases.LogoutUseCase;
@@ -106,6 +107,10 @@ public final class ServiceLocator {
 
     public GetSheltersByBreedUseCase provideGetSheltersByBreedUseCase() {
         return new GetSheltersByBreedUseCase(shelterRepository);
+    }
+
+    public GetShelterDetailsUseCase provideGetShelterDetailsUseCase() {
+        return new GetShelterDetailsUseCase(shelterRepository);
     }
 
     public GetPetsByShelterUseCase provideGetPetsByShelterUseCase() {

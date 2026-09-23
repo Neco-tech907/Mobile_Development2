@@ -1,6 +1,7 @@
 package ru.mirea.ivanovrr.lesson9.presentation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -9,24 +10,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import ru.mirea.ivanovrr.lesson9.R;
-import ru.mirea.ivanovrr.lesson9.data.repository.MovieRepositoryImpl;
-import ru.mirea.ivanovrr.lesson9.data.storage.MovieStorage;
-import ru.mirea.ivanovrr.lesson9.data.storage.sharedprefs.SharedPrefMovieStorage;
 import ru.mirea.ivanovrr.lesson9.domain.models.Movie;
-import ru.mirea.ivanovrr.lesson9.domain.repository.MovieRepository;
-import ru.mirea.ivanovrr.lesson9.domain.usecases.GetFavoriteFilmUseCase;
-import ru.mirea.ivanovrr.lesson9.domain.usecases.SaveMovieToFavoriteUseCase;
 
 /**
- * Слой presentation. Экран собирает зависимости (подставляет реализацию
- * репозитория в use case) и умеет только показывать результат.
+ * Слой presentation, часть View. Activity только показывает данные и передаёт нажатия во ViewModel.
+ * Use case'ов и репозиториев здесь больше нет.
  */
 public class MainActivity extends AppCompatActivity {
 
-    private GetFavoriteFilmUseCase getFavoriteFilmUseCase;
-    private SaveMovieToFavoriteUseCase saveMovieToFavoriteUseCase;
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    /*
+     * Шаг методички «что отобразится в logcat при повороте экрана»:
+     * false — ViewModel создаётся обычным new и пересоздаётся при каждом повороте;
+     * true  — ViewModel берётся из ViewModelProvider и переживает поворот.
+     */
+    private static final boolean CREATE_WITH_PROVIDER = true;
+
+    private MainViewModel vm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,28 +43,26 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Context уходит только в хранилище (модуль data), domain о нём не знает
-        MovieStorage sharedPrefMovieStorage = new SharedPrefMovieStorage(this);
-        MovieRepository movieRepository = new MovieRepositoryImpl(sharedPrefMovieStorage);
-        getFavoriteFilmUseCase = new GetFavoriteFilmUseCase(movieRepository);
-        saveMovieToFavoriteUseCase = new SaveMovieToFavoriteUseCase(movieRepository);
+        Log.d(TAG, "MainActivity created");
+
+        ViewModelFactory factory = new ViewModelFactory(this);
+        if (CREATE_WITH_PROVIDER) {
+            // правильно: при повороте вернётся тот же объект
+            vm = new ViewModelProvider(this, factory).get(MainViewModel.class);
+        } else {
+            // неправильно: то же самое, что new MainViewModel(...), — новый объект на каждый onCreate
+            vm = factory.create(MainViewModel.class);
+        }
 
         EditText editTextMovie = findViewById(R.id.editTextMovie);
         TextView textViewMovie = findViewById(R.id.textViewMovie);
 
-        findViewById(R.id.buttonSaveMovie).setOnClickListener(view -> {
-            Movie movie = new Movie(2, editTextMovie.getText().toString());
-            boolean result = saveMovieToFavoriteUseCase.execute(movie);
-            textViewMovie.setText(String.format("Save result %s", result));
-        });
+        // подписка на LiveData: после поворота придёт последнее значение
+        vm.getFavoriteMovie().observe(this, text -> textViewMovie.setText(text));
 
-        findViewById(R.id.buttonGetMovie).setOnClickListener(view -> {
-            Movie movie = getFavoriteFilmUseCase.execute();
-            if (movie == null) {
-                textViewMovie.setText("Нет данных!");
-            } else {
-                textViewMovie.setText(String.format("Любимый фильм: %s", movie.getName()));
-            }
-        });
+        findViewById(R.id.buttonSaveMovie).setOnClickListener(view ->
+                vm.setText(new Movie(2, editTextMovie.getText().toString())));
+
+        findViewById(R.id.buttonGetMovie).setOnClickListener(view -> vm.getText());
     }
 }

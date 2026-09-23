@@ -60,6 +60,26 @@
                 android:layout_height="wrap_content"
                 android:text="@string/main_pets" />
 
+            <!-- MediatorLiveData: приют из NetworkApi + отзывы из Room в одной карточке -->
+            <Button
+                android:id="@+id/buttonShelterDetails"
+                style="@style/Widget.Lapka.Button.Accent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_shelter_details" />
+
+            <TextView
+                android:id="@+id/textViewShelter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_card_accent"
+                android:padding="16dp"
+                android:text="@string/main_shelter_hint"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="14sp" />
+
             <Button
                 android:id="@+id/buttonSaveEncounter"
                 android:layout_width="match_parent"

@@ -27,6 +27,8 @@
     <string name="main_recognize">Распознать породу по фото</string>
     <string name="main_shelters">Где есть эта порода · NetworkApi</string>
     <string name="main_pets">Питомцы приюта · NetworkApi</string>
+    <string name="main_shelter_details">Приют + отзывы · MediatorLiveData</string>
+    <string name="main_shelter_hint">Здесь соберутся данные приюта из NetworkApi и отзывы о нём из Room</string>
     <string name="main_save_encounter">Сохранить встречу в альбом · Room</string>
     <string name="main_album">Показать альбом встреч · Room</string>
     <string name="main_add_review">Оставить отзыв о приюте · Room</string>
