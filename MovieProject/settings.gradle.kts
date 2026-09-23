@@ -23,4 +23,6 @@ rootProject.name = "MovieProject"
 include(":app")
 include(":data")
 include(":domain")
- 
+include(":scrollviewapp")
+include(":listviewapp")
+include(":recyclerviewapp")

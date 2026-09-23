@@ -25,7 +25,7 @@
     <string name="main_guest">Режим гостя: альбом и отзывы недоступны</string>
     <string name="main_user">Вы вошли как %1$s (%2$s)</string>
     <string name="main_recognize">Распознать породу по фото</string>
-    <string name="main_shelters">Где есть эта порода · NetworkApi</string>
+    <string name="main_shelters">Где есть эта порода · RecyclerView</string>
     <string name="main_pets">Питомцы приюта · NetworkApi</string>
     <string name="main_shelter_details">Приют + отзывы · MediatorLiveData</string>
     <string name="main_shelter_hint">Здесь соберутся данные приюта из NetworkApi и отзывы о нём из Room</string>

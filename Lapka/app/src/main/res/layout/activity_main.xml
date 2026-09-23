@@ -53,6 +53,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/main_shelters" />
 
+            <!-- Список приютов (RecyclerView внутри ScrollView — прокрутку отдаём внешнему) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerShelters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
+
             <Button
                 android:id="@+id/buttonPets"
                 style="@style/Widget.Lapka.Button.Outlined"

@@ -67,6 +67,8 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<String> log = new MutableLiveData<>();
     private final MutableLiveData<User> currentUser = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loggedOut = new MutableLiveData<>(false);
+    // Список приютов для RecyclerView — заглушка NetworkApi, отданная экрану через LiveData
+    private final MutableLiveData<List<Shelter>> shelters = new MutableLiveData<>();
 
     // --- MediatorLiveData: два источника, один результат ---
     private final MutableLiveData<Shelter> shelterFromNetwork = new MutableLiveData<>();
@@ -110,6 +112,7 @@ public class MainViewModel extends ViewModel {
     public LiveData<User> getCurrentUser() { return currentUser; }
     public LiveData<Boolean> getLoggedOut() { return loggedOut; }
     public LiveData<String> getShelterDetails() { return shelterDetails; }
+    public LiveData<List<Shelter>> getShelters() { return shelters; }
 
     // ---------- каталог: NetworkApi ----------
 
@@ -128,19 +131,14 @@ public class MainViewModel extends ViewModel {
         });
     }
 
+    /** Загружает приюты с породой lastBreed и отдаёт их списку через LiveData. */
     public void loadShelters() {
         runInBackground(() -> {
-            List<Shelter> shelters = getSheltersByBreedUseCase.execute(lastBreed);
-            if (shelters.isEmpty()) {
-                return "Ничего не найдено";
-            }
-            StringBuilder sb = new StringBuilder("Где есть порода " + lastBreed + ":");
-            for (Shelter shelter : shelters) {
-                sb.append("\n• ").append(shelter.getName())
-                        .append(" — ").append(shelter.getAddress())
-                        .append(", ").append(shelter.getWorkingHours());
-            }
-            return sb.toString();
+            List<Shelter> found = getSheltersByBreedUseCase.execute(lastBreed);
+            shelters.postValue(found);
+            return found.isEmpty()
+                    ? "Ничего не найдено"
+                    : "Где есть порода " + lastBreed + ": " + found.size() + " мест — список ниже";
         });
     }
 

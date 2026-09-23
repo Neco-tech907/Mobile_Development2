@@ -11,6 +11,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.SystemBarStyle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ru.mirea.ivanovrr.lapka.R;
 
@@ -41,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         TextView textViewShelter = findViewById(R.id.textViewShelter);
         Button buttonAccount = findViewById(R.id.buttonAccount);
 
+        // RecyclerView приютов: адаптер получает данные из LiveData
+        ShelterAdapter shelterAdapter = new ShelterAdapter();
+        RecyclerView recyclerShelters = findViewById(R.id.recyclerShelters);
+        recyclerShelters.setLayoutManager(new LinearLayoutManager(this));
+        recyclerShelters.setAdapter(shelterAdapter);
+
         // --- подписки на LiveData ---
         vm.getLog().observe(this, text -> {
             if (text != null) {
@@ -48,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         vm.getShelterDetails().observe(this, textViewShelter::setText);
+        vm.getShelters().observe(this, shelterAdapter::setItems);
         vm.getCurrentUser().observe(this, user -> {
             if (user == null) {
                 textViewUser.setText(R.string.main_guest);

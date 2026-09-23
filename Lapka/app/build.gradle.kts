@@ -48,6 +48,9 @@ dependencies {
     // MVVM: ViewModel и LiveData (MediatorLiveData лежит в lifecycle-livedata)
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
+
+    // список приютов
+    implementation(libs.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
