@@ -6,27 +6,27 @@
     "breed": "Шпиц",
     "age_months": 8,
     "gender": "Мальчик",
-    "image_url": "https://picsum.photos/id/1062/400/300",
+    "image_url": "https://images.dog.ceo/breeds/pomeranian/n02112018_6227.jpg",
     "description": "Активный щенок, привит, готов к переезду."
   },
   {
     "id": "p2",
     "shelter_id": "s1",
-    "name": "Белка",
+    "name": "Буся",
     "breed": "Шпиц",
     "age_months": 24,
     "gender": "Девочка",
-    "image_url": "https://picsum.photos/id/1074/400/300",
+    "image_url": "https://images.dog.ceo/breeds/pomeranian/n02112018_13930.jpg",
     "description": "Спокойная, ладит с детьми и другими собаками."
   },
   {
     "id": "p3",
     "shelter_id": "s1",
-    "name": "Джек",
+    "name": "Тоша",
     "breed": "Лабрадор",
     "age_months": 14,
     "gender": "Мальчик",
-    "image_url": "https://picsum.photos/id/1084/400/300",
+    "image_url": "https://images.dog.ceo/breeds/labrador/n02099712_2228.jpg",
     "description": "Любит длинные прогулки, знает базовые команды."
   },
   {
@@ -36,7 +36,7 @@
     "breed": "Шпиц",
     "age_months": 5,
     "gender": "Девочка",
-    "image_url": "https://picsum.photos/id/40/400/300",
+    "image_url": "https://images.dog.ceo/breeds/pomeranian/n02112018_9376.jpg",
     "description": "Малышка из последнего помёта, с документами."
   },
   {
@@ -46,7 +46,7 @@
     "breed": "Мейн-кун",
     "age_months": 18,
     "gender": "Мальчик",
-    "image_url": "https://picsum.photos/id/593/400/300",
+    "image_url": "https://s3.us-west-2.amazonaws.com/cdn2.thecatapi.com/images/a43.jpg",
     "description": "Крупный кот, спокойный характер, приучен к лотку."
   },
   {
@@ -56,7 +56,7 @@
     "breed": "Лабрадор",
     "age_months": 36,
     "gender": "Мальчик",
-    "image_url": "https://picsum.photos/id/1012/400/300",
+    "image_url": "https://images.dog.ceo/breeds/labrador/n02099712_7418.jpg",
     "description": "Взрослый, воспитанный пёс, ходит на поводке без рывков."
   }
 ]

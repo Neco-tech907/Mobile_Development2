@@ -3,7 +3,7 @@
     "id": "b1",
     "name": "Шпиц",
     "species": "Собака",
-    "image_url": "https://cdn2.thedogapi.com/images/pomeranian.jpg",
+    "image_url": "https://images.dog.ceo/breeds/pomeranian/n02112018_1561.jpg",
     "temperament": "Активный, привязчивый, звонкий",
     "description": "Маленькая декоративная собака с густой шерстью. Требует регулярного вычёсывания и любит внимание хозяина."
   },
@@ -11,7 +11,7 @@
     "id": "b2",
     "name": "Лабрадор",
     "species": "Собака",
-    "image_url": "https://cdn2.thedogapi.com/images/labrador.jpg",
+    "image_url": "https://images.dog.ceo/breeds/labrador/n02099712_7963.jpg",
     "temperament": "Дружелюбный, энергичный, терпеливый",
     "description": "Крупная собака-компаньон. Отлично ладит с детьми, нуждается в длинных прогулках и физической нагрузке."
   },
@@ -19,7 +19,7 @@
     "id": "b3",
     "name": "Мейн-кун",
     "species": "Кошка",
-    "image_url": "https://cdn2.thecatapi.com/images/mainecoon.jpg",
+    "image_url": "https://s3.us-west-2.amazonaws.com/cdn2.thecatapi.com/images/dv0.jpg",
     "temperament": "Спокойный, ласковый, общительный",
     "description": "Одна из самых крупных пород кошек. Хорошо переносит одиночество, любит высокие лежанки."
   }
