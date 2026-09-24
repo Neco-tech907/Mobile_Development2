@@ -1,21 +1,13 @@
 package ru.mirea.ivanovrr.lapka.data.network.dto;
 
-/** Порода в том виде, в каком её отдаёт сервер (поле image_url и т.п.). */
-public class BreedDto {
-    public final String id;
-    public final String name;
-    public final String species;
-    public final String imageUrl;
-    public final String temperament;
-    public final String description;
+import com.google.gson.annotations.SerializedName;
 
-    public BreedDto(String id, String name, String species, String imageUrl,
-                    String temperament, String description) {
-        this.id = id;
-        this.name = name;
-        this.species = species;
-        this.imageUrl = imageUrl;
-        this.temperament = temperament;
-        this.description = description;
-    }
+/** Порода в том виде, в каком её отдаёт сервер (поле image_url и т.п.). Заполняет Gson. */
+public class BreedDto {
+    @SerializedName("id") public String id;
+    @SerializedName("name") public String name;
+    @SerializedName("species") public String species;
+    @SerializedName("image_url") public String imageUrl;
+    @SerializedName("temperament") public String temperament;
+    @SerializedName("description") public String description;
 }

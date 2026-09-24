@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 import ru.mirea.ivanovrr.lapka.domain.models.Breed;
+import ru.mirea.ivanovrr.lapka.domain.models.DataException;
 import ru.mirea.ivanovrr.lapka.domain.models.Encounter;
 import ru.mirea.ivanovrr.lapka.domain.models.Pet;
 import ru.mirea.ivanovrr.lapka.domain.models.RecognitionResult;
@@ -69,6 +70,7 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Boolean> loggedOut = new MutableLiveData<>(false);
     // Список приютов для RecyclerView — заглушка NetworkApi, отданная экрану через LiveData
     private final MutableLiveData<List<Shelter>> shelters = new MutableLiveData<>();
+    private final MutableLiveData<List<Pet>> pets = new MutableLiveData<>();
 
     // --- MediatorLiveData: два источника, один результат ---
     private final MutableLiveData<Shelter> shelterFromNetwork = new MutableLiveData<>();
@@ -113,6 +115,7 @@ public class MainViewModel extends ViewModel {
     public LiveData<Boolean> getLoggedOut() { return loggedOut; }
     public LiveData<String> getShelterDetails() { return shelterDetails; }
     public LiveData<List<Shelter>> getShelters() { return shelters; }
+    public LiveData<List<Pet>> getPets() { return pets; }
 
     // ---------- каталог: NetworkApi ----------
 
@@ -142,17 +145,12 @@ public class MainViewModel extends ViewModel {
         });
     }
 
+    /** Загружает питомцев приюта из сети и отдаёт их списку с фото через LiveData. */
     public void loadPets() {
         runInBackground(() -> {
-            List<Pet> pets = getPetsByShelterUseCase.execute(DEMO_SHELTER_ID);
-            StringBuilder sb = new StringBuilder("Питомцы: " + DEMO_SHELTER_NAME);
-            for (Pet pet : pets) {
-                sb.append("\n• ").append(pet.getName())
-                        .append(", ").append(pet.getBreedName())
-                        .append(", ").append(pet.getAgeMonths()).append(" мес., ")
-                        .append(pet.getGender());
-            }
-            return sb.toString();
+            List<Pet> found = getPetsByShelterUseCase.execute(DEMO_SHELTER_ID);
+            pets.postValue(found);
+            return "Питомцы " + DEMO_SHELTER_NAME + ": " + found.size() + " — список ниже";
         });
     }
 
@@ -227,8 +225,14 @@ public class MainViewModel extends ViewModel {
     public void loadShelterDetails() {
         shelterFromNetwork.setValue(null);
         reviewsFromDb.setValue(null);
-        executor.execute(() ->
-                shelterFromNetwork.postValue(getShelterDetailsUseCase.execute(DEMO_SHELTER_ID)));
+        executor.execute(() -> {
+            try {
+                shelterFromNetwork.postValue(getShelterDetailsUseCase.execute(DEMO_SHELTER_ID));
+            } catch (DataException e) {
+                // сеть недоступна — карточка покажет ошибку вместо приюта
+                shelterDetails.postValue("Ошибка сети: " + e.getMessage());
+            }
+        });
         executor.execute(() ->
                 reviewsFromDb.postValue(getReviewsByShelterUseCase.execute(DEMO_SHELTER_ID)));
     }
@@ -290,7 +294,14 @@ public class MainViewModel extends ViewModel {
     /** Показывает «Загрузка…», выполняет работу в фоне и кладёт ответ в LiveData. */
     private void runInBackground(Supplier<String> task) {
         log.setValue("Загрузка…");
-        executor.execute(() -> log.postValue(task.get()));
+        executor.execute(() -> {
+            try {
+                log.postValue(task.get());
+            } catch (DataException e) {
+                // Retrofit не достучался до сервера или ответ битый — показываем причину
+                log.postValue("Ошибка: " + e.getMessage());
+            }
+        });
     }
 
     @Override

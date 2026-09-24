@@ -1,0 +1,62 @@
+[
+  {
+    "id": "p1",
+    "shelter_id": "s1",
+    "name": "Рыжик",
+    "breed": "Шпиц",
+    "age_months": 8,
+    "gender": "Мальчик",
+    "image_url": "https://picsum.photos/id/1062/400/300",
+    "description": "Активный щенок, привит, готов к переезду."
+  },
+  {
+    "id": "p2",
+    "shelter_id": "s1",
+    "name": "Белка",
+    "breed": "Шпиц",
+    "age_months": 24,
+    "gender": "Девочка",
+    "image_url": "https://picsum.photos/id/1074/400/300",
+    "description": "Спокойная, ладит с детьми и другими собаками."
+  },
+  {
+    "id": "p3",
+    "shelter_id": "s1",
+    "name": "Джек",
+    "breed": "Лабрадор",
+    "age_months": 14,
+    "gender": "Мальчик",
+    "image_url": "https://picsum.photos/id/1084/400/300",
+    "description": "Любит длинные прогулки, знает базовые команды."
+  },
+  {
+    "id": "p4",
+    "shelter_id": "s2",
+    "name": "Соня",
+    "breed": "Шпиц",
+    "age_months": 5,
+    "gender": "Девочка",
+    "image_url": "https://picsum.photos/id/40/400/300",
+    "description": "Малышка из последнего помёта, с документами."
+  },
+  {
+    "id": "p5",
+    "shelter_id": "s2",
+    "name": "Маркиз",
+    "breed": "Мейн-кун",
+    "age_months": 18,
+    "gender": "Мальчик",
+    "image_url": "https://picsum.photos/id/593/400/300",
+    "description": "Крупный кот, спокойный характер, приучен к лотку."
+  },
+  {
+    "id": "p6",
+    "shelter_id": "s3",
+    "name": "Бублик",
+    "breed": "Лабрадор",
+    "age_months": 36,
+    "gender": "Мальчик",
+    "image_url": "https://picsum.photos/id/1012/400/300",
+    "description": "Взрослый, воспитанный пёс, ходит на поводке без рывков."
+  }
+]

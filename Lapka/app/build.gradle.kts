@@ -51,6 +51,8 @@ dependencies {
 
     // список приютов
     implementation(libs.recyclerview)
+    // фото приютов и питомцев по URL
+    implementation(libs.picasso)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

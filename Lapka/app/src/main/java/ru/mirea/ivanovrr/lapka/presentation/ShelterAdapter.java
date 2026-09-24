@@ -3,11 +3,14 @@ package ru.mirea.ivanovrr.lapka.presentation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +52,7 @@ public class ShelterAdapter extends RecyclerView.Adapter<ShelterAdapter.ShelterV
     /** ViewHolder держит ссылки на view карточки, чтобы не искать их при каждой прокрутке. */
     static class ShelterViewHolder extends RecyclerView.ViewHolder {
 
+        private final ImageView photo;
         private final TextView name;
         private final TextView type;
         private final TextView address;
@@ -56,6 +60,7 @@ public class ShelterAdapter extends RecyclerView.Adapter<ShelterAdapter.ShelterV
 
         ShelterViewHolder(@NonNull View itemView) {
             super(itemView);
+            photo = itemView.findViewById(R.id.imageShelter);
             name = itemView.findViewById(R.id.textShelterName);
             type = itemView.findViewById(R.id.textShelterType);
             address = itemView.findViewById(R.id.textShelterAddress);
@@ -68,6 +73,15 @@ public class ShelterAdapter extends RecyclerView.Adapter<ShelterAdapter.ShelterV
             address.setText(shelter.getAddress());
             hours.setText(shelter.getWorkingHours() + " · "
                     + String.join(", ", shelter.getAvailableBreeds()));
+
+            // фото приюта по URL из ответа сервера; заглушка — лапка из макета
+            Picasso.get()
+                    .load(shelter.getImageUrl())
+                    .placeholder(R.drawable.ic_paw_dark)
+                    .error(R.drawable.ic_paw_dark)
+                    .fit()
+                    .centerCrop()
+                    .into(photo);
             itemView.setOnClickListener(v -> Toast.makeText(v.getContext(),
                     shelter.getName() + "\n" + shelter.getPhone(), Toast.LENGTH_SHORT).show());
         }

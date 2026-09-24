@@ -6,6 +6,7 @@ import java.util.List;
 import ru.mirea.ivanovrr.lapka.data.network.NetworkApi;
 import ru.mirea.ivanovrr.lapka.data.network.NetworkException;
 import ru.mirea.ivanovrr.lapka.data.network.dto.ShelterDto;
+import ru.mirea.ivanovrr.lapka.domain.models.DataException;
 import ru.mirea.ivanovrr.lapka.domain.models.Shelter;
 import ru.mirea.ivanovrr.lapka.domain.repository.ShelterRepository;
 
@@ -46,7 +47,7 @@ public class ShelterRepositoryImpl implements ShelterRepository {
         try {
             return networkApi.getShelters();
         } catch (NetworkException e) {
-            return new ArrayList<>();
+            throw new DataException(e.getMessage(), e);
         }
     }
 

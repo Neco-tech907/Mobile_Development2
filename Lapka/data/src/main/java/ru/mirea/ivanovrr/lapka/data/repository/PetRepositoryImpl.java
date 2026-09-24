@@ -6,6 +6,7 @@ import java.util.List;
 import ru.mirea.ivanovrr.lapka.data.network.NetworkApi;
 import ru.mirea.ivanovrr.lapka.data.network.NetworkException;
 import ru.mirea.ivanovrr.lapka.data.network.dto.PetDto;
+import ru.mirea.ivanovrr.lapka.domain.models.DataException;
 import ru.mirea.ivanovrr.lapka.domain.models.Pet;
 import ru.mirea.ivanovrr.lapka.domain.repository.PetRepository;
 
@@ -43,7 +44,7 @@ public class PetRepositoryImpl implements PetRepository {
         try {
             return networkApi.getPets();
         } catch (NetworkException e) {
-            return new ArrayList<>();
+            throw new DataException(e.getMessage(), e);
         }
     }
 

@@ -16,8 +16,9 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:background="@drawable/bg_photo_placeholder"
+        android:clipToOutline="true"
         android:importantForAccessibility="no"
-        android:padding="14dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_paw_dark" />
 
     <LinearLayout

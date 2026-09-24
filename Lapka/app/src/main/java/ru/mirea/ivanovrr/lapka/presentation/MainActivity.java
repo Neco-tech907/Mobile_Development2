@@ -49,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerShelters.setLayoutManager(new LinearLayoutManager(this));
         recyclerShelters.setAdapter(shelterAdapter);
 
+        PetAdapter petAdapter = new PetAdapter();
+        RecyclerView recyclerPets = findViewById(R.id.recyclerPets);
+        recyclerPets.setLayoutManager(new LinearLayoutManager(this));
+        recyclerPets.setAdapter(petAdapter);
+
         // --- подписки на LiveData ---
         vm.getLog().observe(this, text -> {
             if (text != null) {
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
         vm.getShelterDetails().observe(this, textViewShelter::setText);
         vm.getShelters().observe(this, shelterAdapter::setItems);
+        vm.getPets().observe(this, petAdapter::setItems);
         vm.getCurrentUser().observe(this, user -> {
             if (user == null) {
                 textViewUser.setText(R.string.main_guest);

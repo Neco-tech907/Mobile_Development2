@@ -7,6 +7,7 @@ import ru.mirea.ivanovrr.lapka.data.network.NetworkApi;
 import ru.mirea.ivanovrr.lapka.data.network.NetworkException;
 import ru.mirea.ivanovrr.lapka.data.network.dto.BreedDto;
 import ru.mirea.ivanovrr.lapka.domain.models.Breed;
+import ru.mirea.ivanovrr.lapka.domain.models.DataException;
 import ru.mirea.ivanovrr.lapka.domain.repository.BreedRepository;
 
 /** Справочник пород берётся из NetworkApi (GET /breeds). */
@@ -36,7 +37,8 @@ public class BreedRepositoryImpl implements BreedRepository {
                 result.add(mapToDomain(dto));
             }
         } catch (NetworkException e) {
-            // сеть недоступна — отдаём пустой список, экран покажет «ничего не найдено»
+            // ошибку сети отдаём наверх в понятном для domain виде
+            throw new DataException(e.getMessage(), e);
         }
         return result;
     }

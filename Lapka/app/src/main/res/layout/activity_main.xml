@@ -68,6 +68,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/main_pets" />
 
+            <!-- Список питомцев с фото (Picasso) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
+
             <!-- MediatorLiveData: приют из NetworkApi + отзывы из Room в одной карточке -->
             <Button
                 android:id="@+id/buttonShelterDetails"

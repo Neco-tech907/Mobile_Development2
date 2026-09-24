@@ -1,27 +1,17 @@
 package ru.mirea.ivanovrr.lapka.data.network.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
-/** Приют или магазин в том виде, в каком его отдаёт сервер. */
+/** Приют или магазин в том виде, в каком его отдаёт сервер. Заполняет Gson. */
 public class ShelterDto {
-    public final String id;
-    public final String name;
-    public final String type;
-    public final String address;
-    public final String phone;
-    public final String workingHours;
-    public final String imageUrl;
-    public final List<String> breeds;
-
-    public ShelterDto(String id, String name, String type, String address, String phone,
-                      String workingHours, String imageUrl, List<String> breeds) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.address = address;
-        this.phone = phone;
-        this.workingHours = workingHours;
-        this.imageUrl = imageUrl;
-        this.breeds = breeds;
-    }
+    @SerializedName("id") public String id;
+    @SerializedName("name") public String name;
+    @SerializedName("type") public String type;
+    @SerializedName("address") public String address;
+    @SerializedName("phone") public String phone;
+    @SerializedName("working_hours") public String workingHours;
+    @SerializedName("image_url") public String imageUrl;
+    @SerializedName("breeds") public List<String> breeds;
 }

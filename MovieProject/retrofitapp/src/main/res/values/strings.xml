@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">RetrofitApp</string>
+    <string name="title">Список дел · jsonplaceholder</string>
+    <string name="image_mode">Картинки:</string>
+    <string name="retry">Повторить</string>
+    <string name="loading">Загрузка…</string>
+    <string name="error_network">Нет соединения с сервером: %1$s</string>
+    <string name="error_http">Сервер ответил ошибкой %1$d</string>
+    <string name="todo_updated">Дело #%1$d обновлено на сервере (%2$s)</string>
+    <string name="todo_update_failed">Не удалось обновить дело #%1$d</string>
+    <string name="done">выполнено</string>
+    <string name="not_done">не выполнено</string>
+    <string-array name="image_modes">
+        <item>Обычные</item>
+        <item>Обрезка centerCrop</item>
+        <item>Круглые</item>
+        <item>Маленькие 48 dp</item>
+    </string-array>
+</resources>

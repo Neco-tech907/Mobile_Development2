@@ -41,6 +41,10 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
 
+    // Retrofit + Gson — загрузка пород, приютов и питомцев из сети
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+
     // Room — локальная БД для альбома встреч и отзывов
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
