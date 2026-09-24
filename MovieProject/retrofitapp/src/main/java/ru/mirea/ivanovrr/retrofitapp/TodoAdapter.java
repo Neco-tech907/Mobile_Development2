@@ -1,9 +1,12 @@
 package ru.mirea.ivanovrr.retrofitapp;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +21,8 @@ import java.util.Locale;
  * Адаптер списка дел. Картинки грузит Picasso; режим отображения (обычный, centerCrop,
  * круглые, маленькие) переключается из Activity через setImageMode.
  * Смена чекбокса уходит наружу через OnCompletedChangeListener — там отправляется PUT.
+ *
+ * Задание методички §2: resize / fit / centerCrop / centerInside / transform.
  */
 public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
 
@@ -25,6 +30,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
     public static final int MODE_CENTER_CROP = 1;
     public static final int MODE_CIRCLE = 2;
     public static final int MODE_SMALL = 3;
+
+    private static final int SIZE_NORMAL_DP = 72;
+    private static final int SIZE_SMALL_DP = 48;
+    /** Фон только для centerInside — чтобы были видны поля вокруг горизонтального фото. */
+    private static final int LETTERBOX_COLOR = Color.parseColor("#E0E6E2");
 
     public interface OnCompletedChangeListener {
         void onCompletedChanged(Todo todo, boolean completed);
@@ -60,7 +70,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
                 todo.getId(), todo.getUserId()));
         holder.textViewTitle.setText(todo.getTitle());
 
-        // снимаем старый слушатель, иначе setChecked при переиспользовании вызовет PUT
         holder.checkBoxCompleted.setOnCheckedChangeListener(null);
         holder.checkBoxCompleted.setChecked(todo.getCompleted());
         holder.checkBoxCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -72,8 +81,21 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
         loadImage(holder, todo);
     }
 
-    /** Picasso: placeholder пока грузится, error если не загрузилось, плюс выбранный режим. */
     private void loadImage(TodoViewHolder holder, Todo todo) {
+        ImageView imageView = holder.imageView;
+        Picasso.get().cancelRequest(imageView);
+
+        int sizeDp = (imageMode == MODE_SMALL) ? SIZE_SMALL_DP : SIZE_NORMAL_DP;
+        int sizePx = dpToPx(imageView, sizeDp);
+        setImageViewSize(imageView, sizePx);
+
+        // фон только у «Обычные» (centerInside + letterbox); иначе квадрат просвечивает под кругом
+        if (imageMode == MODE_DEFAULT) {
+            imageView.setBackgroundColor(LETTERBOX_COLOR);
+        } else {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
+
         RequestCreator request = Picasso.get()
                 .load(todo.getImageUrl())
                 .placeholder(R.drawable.ic_launcher_background)
@@ -81,18 +103,37 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
 
         switch (imageMode) {
             case MODE_CENTER_CROP:
-                request.fit().centerCrop();
+                // как в методичке: заполняет квадрат, края обрезаются
+                request.resize(sizePx, sizePx).centerCrop();
                 break;
             case MODE_CIRCLE:
-                request.fit().centerCrop().transform(new CircleTransformation());
+                // transform — «круглый стиль» из методички; без фона углы прозрачные
+                request.resize(sizePx, sizePx).centerCrop().transform(new CircleTransformation());
                 break;
             case MODE_SMALL:
-                request.resize(48, 48).centerInside();
+                // resize + centerCrop — как пример resize(100,100).centerCrop() в методичке
+                request.resize(sizePx, sizePx).centerCrop();
                 break;
             default:
-                request.fit().centerInside();
+                // centerInside: вся горизонтальная картинка целиком, поля фона видны
+                request.resize(sizePx, sizePx).centerInside();
+                break;
         }
-        request.into(holder.imageView);
+        request.into(imageView);
+    }
+
+    private static int dpToPx(View view, int dp) {
+        return Math.round(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, dp, view.getResources().getDisplayMetrics()));
+    }
+
+    private static void setImageViewSize(ImageView imageView, int sizePx) {
+        ViewGroup.LayoutParams lp = imageView.getLayoutParams();
+        if (lp.width != sizePx || lp.height != sizePx) {
+            lp.width = sizePx;
+            lp.height = sizePx;
+            imageView.setLayoutParams(lp);
+        }
     }
 
     @Override

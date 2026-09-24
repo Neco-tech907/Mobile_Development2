@@ -24,6 +24,7 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
             tools:src="@drawable/ic_launcher_foreground" />
 
         <LinearLayout

@@ -29,8 +29,12 @@ public class Todo {
 
     public void setCompleted(Boolean completed) { this.completed = completed; }
 
-    /** Картинка для дела: детерминированная по id, чтобы Picasso кэшировал её между запусками. */
+    /**
+     * Картинка для дела: детерминированная по id.
+     * Горизонтальная (400×200), чтобы centerInside и centerCrop в квадратном ImageView
+     * визуально отличались (поля vs обрезка краёв).
+     */
     public String getImageUrl() {
-        return "https://picsum.photos/seed/todo" + id + "/300/300";
+        return "https://picsum.photos/seed/todo" + id + "/400/200";
     }
 }
